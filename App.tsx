@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { StatusBar, StyleSheet, useColorScheme, View, FlatList, useWindowDimensions, TouchableOpacity, Image, Text } from 'react-native';
+import { StatusBar, StyleSheet, useColorScheme, View, ScrollView, useWindowDimensions, TouchableOpacity, Image, Text } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -15,40 +15,65 @@ import {
 const APPS = [
   {
     key: 'Calls',
+    subtitle: 'Calls',
     msg: 'Make Calls from here',
     icon: 'https://img.icons8.com/fluency/96/phone.png',
     tint: '#34C759',
+  },
+  {
+    key: 'Camera',
+    subtitle: 'Camera',
+    msg: 'Take Pictures from here',
+    icon: 'https://img.icons8.com/fluency/96/camera.png',
+    tint: '#5E5E5E'
+  },
+  {
+    key: 'Messages',
+    subtitle: 'Messages',
+    msg: 'Send Messages from here',
+    icon: 'https://img.icons8.com/fluency/96/messages.png',
+    tint: '#34C759',
+  },
+  {
+    key: 'Music',
+    subtitle: 'Music',
+    msg: 'Play Music from here',
+    icon: 'https://img.icons8.com/fluency/96/music.png',
+    tint: '#FF3B30',
+  },
+  {
+    key: 'Photos',
+    subtitle: 'Photos',
+    msg: 'View Photos from here',
+    icon: 'https://img.icons8.com/fluency/96/photos.png',
+    tint: '#FFFFFF',
   }
 ]
 
 function HomeScreen({navigation}: {navigation: any}){
   const {width} = useWindowDimensions();
-  const gutter =16;
+  const gutter = 16;
   const cardWidth = (width - gutter * 3) / 2;
-
-  const renderItem = ({ item }: {item: any}) => (
-    <TouchableOpacity
-      activeOpacity={0.85}
-      onPress={() => navigation.navigate('Detail', { title: item.key, msg: item.msg })}
-      style={[styles.card, {width: cardWidth}]}
-    >
-    <View style={[styles.iconWrap, { backgroundColor: item.tint }]}>
-        <Image source={{ uri: item.icon }} style={styles.icon} resizeMode="contain" />
-      </View>
-      <Text style={styles.cardText}>{item.subtitle}</Text>
-    </TouchableOpacity>
-  );
 
   return ( 
     <View style={styles.screen}>
-      <FlatList
-        data={APPS}
-        numColumns={2}
-        columnWrapperStyle={{ gap: gutter }}
-        contentContainerStyle={{ padding: gutter, gap: gutter }}
-        keyExtractor={(it) => it.key}
-        renderItem={renderItem}
-      />
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.gridContainer}>
+          {APPS.map((item) => (
+            <TouchableOpacity
+              key={item.key}
+              activeOpacity={0.85}
+              onPress={() => navigation?.navigate('Detail', { title: item.key, msg: item.msg })}
+              style={[styles.card, {width: cardWidth}]}
+            >
+              <View style={[styles.iconWrap, { backgroundColor: item.tint }]}>
+                <Image source={{ uri: item.icon }} style={styles.icon} resizeMode="contain" />
+              </View>
+              <Text style={styles.cardText}>{item.subtitle}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -78,6 +103,15 @@ const styles = StyleSheet.create({
   },
   screen: {
     flex: 1,
+    backgroundColor: '#fff',
+  },
+  scrollContent: {
+    padding: 16,
+  },
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 16,
   },
   card: {
     borderRadius: 12,
@@ -101,6 +135,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#333',
+    textAlign: 'center',
   },
 });
 
