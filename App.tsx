@@ -21,36 +21,31 @@ const APPS = [
     key: 'Calls',
     subtitle: 'Calls',
     msg: 'Make calls from Here',
-    icon: 'https://img.icons8.com/fluency/96/phone.png',
-    tint: '#34C759',
+    icon: require('./assets/iphone_call_logo.webp'),
   },
   {
     key: 'Camera',
     subtitle: 'Camera',
     msg: 'Welcome to the camera app',
-    icon: 'https://img.icons8.com/fluency/96/camera.png',
-    tint: '#5E5E5E'
+    icon: require('./assets/iphone_camera.png'),
   },
   {
     key: 'Messages',
     subtitle: 'Messages',
     msg: 'Welcome to your Messages',
-    icon: 'https://img.icons8.com/fluency/96/messages.png',
-    tint: '#34C759',
+    icon: require('./assets/IMessage_logo.svg.png'),
   },
   {
     key: 'Music',
     subtitle: 'Music',
     msg: 'Welcome to the Music Selection Screen',
-    icon: 'https://img.icons8.com/fluency/96/music.png',
-    tint: '#FF3B30',
+    icon: require('./assets/imusic.png'),
   },
   {
     key: 'Photos',
     subtitle: 'Photos',
     msg: 'Welcome to the Photos Screen',
-    icon: 'https://img.icons8.com/fluency/96/photos.png',
-    tint: '#FFFFFF',
+    icon: require('./assets/iphotos.png'),
   }
 ]
 
@@ -80,9 +75,7 @@ function HomeScreen({navigation}: {navigation: any}){
               onPress={() => navigation.navigate('Detail', { msg: item.msg })}
               style={[styles.card, {width: cardWidth}]}
             >
-              <View style={[styles.iconWrap, { backgroundColor: item.tint }]}>
-                <Image source={{ uri: item.icon }} style={styles.icon} resizeMode="contain" />
-              </View>
+              <Image source={item.icon} style={styles.icon} resizeMode="contain" />
               <Text style={styles.cardText}>{item.subtitle}</Text>
             </TouchableOpacity>
           ))}
@@ -144,17 +137,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     alignItems: 'center',
   },
-  iconWrap: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
   icon: {
-    width: 40,
-    height: 40,
+    width: 70,
+    height: 70,
   },
   cardText: {
     fontSize: 14,
