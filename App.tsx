@@ -11,44 +11,58 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 const APPS = [
   {
     key: 'Calls',
     subtitle: 'Calls',
-    msg: 'Make Calls from here',
+    msg: 'Make calls from Here',
     icon: 'https://img.icons8.com/fluency/96/phone.png',
     tint: '#34C759',
   },
   {
     key: 'Camera',
     subtitle: 'Camera',
-    msg: 'Take Pictures from here',
+    msg: 'Welcome to the camera app',
     icon: 'https://img.icons8.com/fluency/96/camera.png',
     tint: '#5E5E5E'
   },
   {
     key: 'Messages',
     subtitle: 'Messages',
-    msg: 'Send Messages from here',
+    msg: 'Welcome to your Messages',
     icon: 'https://img.icons8.com/fluency/96/messages.png',
     tint: '#34C759',
   },
   {
     key: 'Music',
     subtitle: 'Music',
-    msg: 'Play Music from here',
+    msg: 'Welcome to the Music Selection Screen',
     icon: 'https://img.icons8.com/fluency/96/music.png',
     tint: '#FF3B30',
   },
   {
     key: 'Photos',
     subtitle: 'Photos',
-    msg: 'View Photos from here',
+    msg: 'Welcome to the Photos Screen',
     icon: 'https://img.icons8.com/fluency/96/photos.png',
     tint: '#FFFFFF',
   }
 ]
+
+function DetailScreen({ route }: { route: any }) {
+  const { msg } = route.params;
+  
+  return (
+    <View style={styles.detailContainer}>
+      <Text style={styles.detailMsg}>{msg}</Text>
+    </View>
+  );
+}
 
 function HomeScreen({navigation}: {navigation: any}){
   const {width} = useWindowDimensions();
@@ -63,7 +77,7 @@ function HomeScreen({navigation}: {navigation: any}){
             <TouchableOpacity
               key={item.key}
               activeOpacity={0.85}
-              onPress={() => navigation?.navigate('Detail', { title: item.key, msg: item.msg })}
+              onPress={() => navigation.navigate('Detail', { msg: item.msg })}
               style={[styles.card, {width: cardWidth}]}
             >
               <View style={[styles.iconWrap, { backgroundColor: item.tint }]}>
@@ -91,9 +105,20 @@ function App() {
 
 function AppContent() {
   return (
-    <View style={styles.container}>
-      <HomeScreen navigation={null} />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="Home" 
+          component={HomeScreen}
+          options={{ title: 'Apps' }}
+        />
+        <Stack.Screen 
+          name="Detail" 
+          component={DetailScreen}
+          options={{ title: 'App Details' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -134,6 +159,18 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 14,
     fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+  },
+  detailContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  detailMsg: {
+    fontSize: 18,
     color: '#333',
     textAlign: 'center',
   },
